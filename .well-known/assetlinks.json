@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "io.github.karypsx.twa",
-        "sha256_cert_fingerprints": ["B9:45:AA:05:EE:B3:71:C7:3B:D1:5C:E9:20:E9:06:C0:07:41:41:BB:48:C5:6C:E8:F3:30:3B:C0:4C:7C:1F:10"]
+        "sha256_cert_fingerprints": ["40:53:2C:A9:2C:E9:19:E8:A5:47:D1:3D:81:6A:98:67:CD:2D:0E:42:6C:1A:87:81:58:08:2F:BF:DB:53:79:20"]
       }
     }]
