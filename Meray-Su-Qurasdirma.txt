@@ -1,0 +1,22 @@
+LİMAN ANBARI · MƏRAY SU QURAŞDIRMA
+
+Bu paketdə tətbiqin 1.65.0 versiyası, Google Apps Script kodu və quraşdırma addımları var.
+
+Forma əvvəlcədən 3 təhvil yeri sətri açır. Hər sətirdə solda butulka sayı, yanında təhvil yeri yazılır. “Başqa yer əlavə et” düyməsi ilə 20-yə qədər sətir artırmaq olar. Məsələn, ilk üç sətirdə 1-ci post, 2-ci post və idarə yazılır; tərəzi üçün əlavə sətir açılır. Qəbul edən şəxsin adı və qeyd bütün qaiməyə aiddir.
+
+1. Google Sheets-də göndərdiyin əsas “Ceyhun anbar” faylını aç.
+2. Extensions → Apps Script seç.
+3. Açılan layihədə Code.gs faylının içini təmizlə, bu paketdəki Meray-Su-Code.gs faylının bütün mətnini ora köçür və Save et.
+4. Yuxarıdakı funksiya siyahısından authorizeMarayWater seçib Run bas. Əgər “Məray Su” vərəqində köhnə cədvəl varsa, əvvəlki qaimələr qorunaraq hər biri ayrıca qaimə blokuna çevriləcək.
+5. Deploy → Manage deployments aç. Mövcud Web App deployment-in yanındakı qələmə bas, Version yerindən New version seç və Deploy et. Execute as: Me, Who has access: Anyone olaraq qalsın. Eyni deployment-i yenilə, yeni deployment yaratma; beləliklə /exec linki dəyişməz.
+6. Google Sheets paylaşımını açıq etmə. Tətbiq hər sorğuda Firebase-də təsdiqlənmiş hesabı yoxlayır.
+7. GitHub-a bu paketdəki index.html, script.js və style.css fayllarını yüklə; digər faylların dəyişməsinə ehtiyac yoxdur.
+8. Tətbiqi yenilə, təsdiqlənmiş hesabla daxil ol və Məray Su bölməsindən sınaq qaiməsi yaz. Qaiməni silmək üçün kartdakı “Sil” düyməsini basıb təsdiqlə.
+
+Google Sheets-də hər qaimə ayrıca başlıq, təkrarlanan sütun adları, təhvil yerləri və butulka cəmi ilə yazılır. Mövcud köhnə qaimələr də ilk dəfə script işə düşəndə eyni görünüşə keçirilir.
+
+Yalnız deployment linki dəyişibsə, app-config.js faylında marayWaterApiUrl sətrindəki mövcud linki yeni /exec linki ilə əvəz et. Link eyni qalıbsa app-config.js faylına toxunma.
+
+Vacib: Web App linki texniki olaraq açıq linkdir, ancaq Apps Script hər sorğuda Firebase girişini və “approved” hesab statusunu yoxlayır. Sheet-in paylaşımı “Anyone” edilməməlidir. Apps Script-i əsas Ceyhun anbar faylına giriş hüququ olan Google hesabında yarat və yayımla.
+
+Qeyd sahələri: tarix, bir neçə təhvil yeri və hər yer üçün butulka sayı, qəbul edən şəxsin adı və istəyə bağlı qeyd.

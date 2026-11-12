@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#edf0f5">
+    <title>Liman Anbarı</title>
+    <link rel="preload" as="image" href="images/liman-logo-splash.png" fetchpriority="high">
+    <link rel="stylesheet" href="style.css?v=200">
+    <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+
+
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="vendor/jszip.min.js"></script>
+    
+</head>
+<body>
+    <div id="splash-screen" class="splash-screen boot-screen opening-screen" role="status" aria-label="Liman Anbarı işə düşür">
+        <div class="opening-backdrop" aria-hidden="true">
+            <span class="opening-orb opening-orb-a"></span>
+            <span class="opening-orb opening-orb-b"></span>
+            <span class="opening-streak opening-streak-one"></span>
+            <span class="opening-streak opening-streak-two"></span>
+            <span class="opening-streak opening-streak-three"></span>
+            <span class="opening-streak opening-streak-four"></span>
+            <i class="opening-snowflake opening-snowflake-1">❄</i>
+            <i class="opening-snowflake opening-snowflake-2">❄</i>
+            <i class="opening-snowflake opening-snowflake-3">❄</i>
+            <i class="opening-snowflake opening-snowflake-4">❄</i>
+            <i class="opening-snowflake opening-snowflake-5">❄</i>
+            <i class="opening-snowflake opening-snowflake-6">❄</i>
+            <i class="opening-snowflake opening-snowflake-7">❄</i>
+            <i class="opening-snowflake opening-snowflake-8">❄</i>
+            <span class="opening-snowbank"></span>
+
+        </div>
+        <header class="opening-topline" aria-hidden="true">
+            <span class="opening-brand">LİMAN <i></i> ƏMƏLİYYAT PLATFORMASI</span>
+            <span class="opening-live"><i></i> SİSTEM AÇILIR</span>
+        </header>
+        <div class="opening-center">
+            <div class="opening-logo-stage" aria-hidden="true">
+                <span class="opening-orbit opening-orbit-outer"></span>
+                <span class="opening-orbit opening-orbit-inner"></span>
+                <span class="opening-orbit-point"></span>
+                <img class="boot-yard-logo opening-logo" src="images/liman-logo-splash.png" alt="Liman Anbarı loqosu">
+            </div>
+            <section class="opening-copy">
+                <p class="opening-kicker"><i></i> LİMAN · BAKI</p>
+                <h1>Liman <span>Anbarı</span></h1>
+                <p class="opening-description">Anbar, sahə və paylama bir mərkəzdə</p>
+            </section>
+            <div class="opening-progress" aria-label="Tətbiq yüklənir">
+                <div class="opening-progress-label">
+                    <span>İş sahəsi hazırlanır</span>
+                    <output id="opening-progress-value" aria-live="off">0%</output>
+                </div>
+                <div class="opening-progress-track" role="progressbar" aria-label="Tətbiqin yüklənməsi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <span id="opening-progress-fill"></span>
+                </div>
+            </div>
+        </div>
+        <footer class="opening-footer" aria-hidden="true">
+            <span>ANBAR İDARƏETMƏSİ</span>
+            <span class="opening-footer-line"></span>
+            <span>BAKI · AZƏRBAYCAN</span>
+        </footer>
+    </div>
+    <main class="container">
+        <div class="top-label">
+    <span class="top-label-brand" aria-hidden="true"><img class="top-label-icon" src="images/liman-anbari-mark.svg" alt=""></span>
+    <span class="top-label-copy">
+        <span class="top-label-title"><strong class="top-label-word-liman">Liman</strong><strong class="top-label-word-anbari">Anbarı</strong></span>
+        <span class="top-label-subtitle">ANBAR İDARƏETMƏ SİSTEMİ</span>
+    </span>
+</div>
+        <time class="dashboard-date dashboard-date-desktop" aria-label="Bugünün tarixi">
+            <span class="dashboard-date-copy"><span class="dashboard-date-value"></span><span class="dashboard-date-separator" aria-hidden="true">·</span><span class="dashboard-date-weekday"></span></span>
+        </time>
+        <div id="menu-backdrop" class="menu-backdrop" hidden></div>
+        <div class="app-menu-wrap">
+            <div id="account-control" class="account-control">
+                <button id="login-placeholder" class="login-placeholder" type="button" aria-controls="account-logout-menu" aria-expanded="false"><span id="account-current-avatar" class="account-current-avatar" aria-hidden="true" hidden></span><span id="login-placeholder-label">Daxil ol</span></button>
+                <div id="account-logout-menu" class="account-logout-menu" role="menu" hidden>
+                    <button id="account-logout-button" class="account-logout-button" type="button" role="menuitem">Çıxış</button>
+                </div>
+            </div>
+            <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Menyunu aç" aria-expanded="false" aria-controls="app-menu">
+                <span></span><span></span><span></span>
+            </button>
+            
+            
+            
+            <nav id="app-menu" class="app-menu" aria-label="Əsas menyu" hidden>
+                <div class="app-menu-heading">
+                    <div><span class="app-menu-kicker">LİMAN ANBARI</span><strong>Bölmələr</strong></div>
+                    <span class="app-menu-heading-mark" aria-hidden="true">↗</span>
+                </div>
+                <span class="app-menu-divider" aria-hidden="true"></span>
+                <button type="button" data-menu-view="home">
+                    <span class="app-menu-icon" aria-hidden="true"><img src="images/menu-home.png" alt="" onerror="this.hidden=true"></span>
+                    <span class="app-menu-item-copy"><strong>Ana səhifə</strong><small>Ümumi baxış</small></span>
+                    <span class="app-menu-item-arrow" aria-hidden="true">›</span>
+                </button>
+                <button type="button" data-menu-view="english-practice">
+                    <span class="app-menu-icon english-menu-icon" aria-hidden="true"><img src="images/word-shuffle-icon.png" alt="" onerror="this.hidden=true"></span>
+                    <span class="app-menu-item-copy"><strong>Word Shuffle</strong><small>İngiliscə cümlə oyunu</small></span>
+                    <span class="app-menu-item-arrow" aria-hidden="true">›</span>
+                </button>
+
+                 <button id="approval-menu-link" type="button" data-menu-view="approvals" hidden>
+                    <span class="app-menu-icon" aria-hidden="true"><img src="images/appointment.png" alt="" onerror="this.hidden=true"></span>
+                    <span class="app-menu-item-copy"><strong>Qeydiyyat sorğuları</strong><small>Təsdiq gözləyən hesablar</small></span>
+                    <span class="app-menu-item-arrow" aria-hidden="true">›</span>
+                </button>
+
+                <button type="button" data-menu-view="distribution">
+                    <span class="app-menu-icon" aria-hidden="true"><img src="images/menu-journal.png" alt="" onerror="this.hidden=true"></span>
+                    <span class="app-menu-item-copy"><strong>Paylama jurnalı</strong><small>Verilən mallar</small></span>
+                    <span class="app-menu-item-arrow" aria-hidden="true">›</span>
+                </button>
+                <button type="button" data-menu-view="area-measurement">
+                    <span class="app-menu-icon" aria-hidden="true"><img src="images/menu-area.png" alt="" onerror="this.hidden=true"></span>
+                    <span class="app-menu-item-copy"><strong>Sahə ölçümü</strong><small>Ərazi qeydləri</small></span>
+                    <span class="app-menu-item-arrow" aria-hidden="true">›</span>
+                </button>
+                
+                <button type="button" data-menu-view="reminders">
+                    <span class="app-menu-icon" aria-hidden="true"><img src="images/menu-reminders.png" alt="" onerror="this.hidden=true"></span>
+                    <span class="app-menu-item-copy"><strong>Xatırlatmalar</strong><small>Vacib vaxtlar</small></span>
+                    <span class="app-menu-item-arrow" aria-hidden="true">›</span>
+                </button>
+                <button type="button" data-menu-view="about">
+                    <span class="app-menu-icon" aria-hidden="true"><img src="images/menu-about.png" alt="" onerror="this.hidden=true"></span>
+                    <span class="app-menu-item-copy"><strong>Tətbiq haqqında</strong><small>Məlumat və versiya</small></span>
+                    <span class="app-menu-item-arrow" aria-hidden="true">›</span>
+                </button>
+            </nav>
+        </div>
+        <header class="app-header">
+            <div class="app-mark" aria-hidden="true">
+    <img src="images/app-mark.png" alt="">
+</div>
+            <h1>Liman Anbarı</h1>
+            <p>Rəf kodunu oxudub malları tapın</p>
+        </header>
+
+        <section id="home-view" class="view">
+            <section class="home-dashboard" aria-label="Günün paneli">
+                
+                <div class="dashboard-insight-grid">
+                    <section class="dashboard-daily-summary" aria-label="Günün icmalı">
+                        <div class="dashboard-title-row">
+    <h2 class="dashboard-title">Günün icmalı</h2>
+    <time id="dashboard-date" class="dashboard-date dashboard-date-mobile" aria-label="Bugünün tarixi">
+        <span class="dashboard-date-copy"><span id="dashboard-date-value" class="dashboard-date-value"></span><span class="dashboard-date-separator" aria-hidden="true">·</span><span id="dashboard-date-weekday" class="dashboard-date-weekday"></span></span>
+    </time>
+</div>
+                        <div class="dashboard-stats" aria-label="Bu günün paylama xülasəsi">
+                            <div class="dashboard-stat"><strong id="dashboard-record-count">—</strong><span>paylama qeydi</span></div>
+                            <div class="dashboard-stat"><strong id="dashboard-quantity-total">—</strong><span>verilən miqdar</span></div>
+                        </div>
+                        <div class="dashboard-monthly-expense" aria-live="polite">
+                            <span class="dashboard-expense-icon" aria-hidden="true">₼</span>
+                            <div class="dashboard-expense-copy">
+                                <span id="dashboard-expense-label">Bu ay xərclənən vəsait</span>
+                                <strong id="dashboard-monthly-expense">—</strong>
+                            </div>
+                            <button id="monthly-report-open" class="dashboard-monthly-report-button" type="button"><span>Aylıq hesabat</span><span aria-hidden="true">↗</span></button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+           <div class="home-launch-actions">
+    <div class="home-actions-heading">
+        <span>GÜNDƏLİK ƏMƏLİYYATLAR</span>
+        <h2>İş alətləri</h2>
+    </div>
+    <div class="home-quick-tools" aria-label="Sürətli keçidlər">
+        <button id="port-map-open" class="dashboard-map-button" type="button" aria-label="Liman xəritəsini aç" aria-haspopup="dialog" aria-controls="port-map-dialog">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"></path><path d="M9 3v15m6-12v15"></path></svg>
+                                <span>Xəritə</span>
+                            </button>
+        <button id="area-count-open" class="dashboard-map-button area-count-open" type="button" aria-label="Ərazi sayımını aç">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16H7z"></path><path d="M9 8h6M9 12h6M9 16h3"></path></svg>
+                                <span>Ərazi sayımı</span>
+                            </button>
+        <button id="maray-water-open" class="dashboard-map-button maray-water-open" type="button" aria-label="Məray Su qaimələrini aç">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.3 6 11a6 6 0 1 1-12 0c0-4.7 6-11 6-11Z"></path><path d="M9 15a3 3 0 0 0 3 3"></path></svg>
+                                <span>Məray Su</span>
+                            </button>
+    
+        <button id="port-map-open-mobile" class="dashboard-map-button dashboard-map-button-mobile" type="button" aria-label="Liman xəritəsini aç" aria-haspopup="dialog" aria-controls="port-map-dialog">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"></path><path d="M9 3v15m6-12v15"></path></svg>
+                <span>Xəritə</span>
+            </button>
+        <button id="area-count-open-mobile" class="dashboard-map-button dashboard-map-button-mobile area-count-open" type="button" aria-label="Ərazi sayımını aç">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16H7z"></path><path d="M9 8h6M9 12h6M9 16h3"></path></svg>
+                <span>Sayım</span>
+            </button>
+        <button id="maray-water-open-mobile" class="dashboard-map-button dashboard-map-button-mobile maray-water-open" type="button" aria-label="Məray Su qaimələrini aç">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.3 6 11a6 6 0 1 1-12 0c0-4.7 6-11 6-11Z"></path><path d="M9 15a3 3 0 0 0 3 3"></path></svg>
+                <span>Məray Su</span>
+            </button>
+    </div>
+    
+    <button id="home-area-measurement" class="home-scan-launch" type="button">
+        <span class="home-scan-frost" aria-hidden="true"></span>
+        <span class="home-scan-launch-icon home-area-launch-icon" aria-hidden="true"><img src="images/menu-area2.png" alt=""></span>
+        <span class="home-scan-launch-copy">
+            <span class="home-scan-kicker">ƏRAZİ QEYDLƏRİ</span>
+            <strong>Sahə ölçümü</strong>
+            <small>Ölçüləri hesabla və qeydə al</small>
+        </span>
+        <span class="home-scan-launch-arrow" aria-hidden="true"><img src="images/arrow-right.png" alt=""></span>
+    </button>
+    
+    <button id="start-scan" class="home-scan-launch" type="button">
+        <span class="home-scan-frost" aria-hidden="true"></span>
+        <span class="home-scan-launch-icon" aria-hidden="true"><img src="images/scan-icon.png" alt=""></span>
+        <span class="home-scan-launch-copy">
+            <span class="home-scan-kicker">SÜRƏTLİ AXTARIŞ</span>
+            <strong>Rəfi skan et</strong>
+            <small>QR kodu oxudub malın yerini tap</small>
+        </span>
+        <span class="home-scan-launch-arrow" aria-hidden="true"><img src="images/arrow-right.png" alt=""></span>
+    </button>
+    
+    <button id="home-issue-goods" class="home-scan-launch home-issue-launch" type="button">
+        <span class="home-scan-frost" aria-hidden="true"></span>
+        <span class="home-scan-launch-icon home-issue-launch-icon" aria-hidden="true">
+            <img src="images/mal-ver-icon.png" alt="">
+        </span>
+        <span class="home-scan-launch-copy">
+            <span class="home-scan-kicker">ANBARDAN TƏHVİL</span>
+            <strong>Stok siyahısı</strong>
+            <small>Buradan mal təhvil verə bilərsiniz</small>
+        </span>
+        <span class="home-scan-launch-arrow" aria-hidden="true"><img src="images/arrow-right.png" alt=""></span>
+    </button>
+    
+    <button id="home-warehouse-plan" class="home-scan-launch home-warehouse-launch" type="button">
+        <span class="home-scan-frost" aria-hidden="true"></span>
+        <span class="home-scan-launch-icon home-warehouse-launch-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d="M3 20V8l9-5 9 5v12"></path><path d="M7 20v-7h10v7M9 16h2m2 0h2M5 9h14"></path></svg>
+        </span>
+        <span class="home-scan-launch-copy">
+            <span class="home-scan-kicker">PALET YERLƏŞİMİ</span>
+            <strong>Anbar planı</strong>
+            <small>13 anbarın planını aç və malları yerləşdir</small>
+        </span>
+        <span class="home-scan-launch-arrow" aria-hidden="true"><img src="images/arrow-right.png" alt=""></span>
+    </button>
+</div>
+            <div class="home-lists-grid">
+                <div class="home-lists-intro">
+                    <h2>Gündəlik nəzarət</h2>
+                    <p>Son paylamalar və sahədə uzun müddət qalan mallar</p>
+                </div>
+                <section class="home-recent-section home-card-active" aria-label="Son verilən mallar">
+                    <div class="home-recent-heading">
+                        <div class="home-list-heading home-list-heading-recent">
+                            <span class="home-list-heading-mark" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"></path><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12.2V21"></path></svg>
+                            </span>
+                            <span class="home-list-heading-copy"><span class="home-list-eyebrow">PAYLAMA JURNALI</span><h2>Son verilənlər</h2></span>
+                        </div>
+                        <button id="recent-distribution-open" class="recent-open-button" type="button" aria-label="Paylama jurnalına bax">Hamısına bax <span aria-hidden="true">›</span></button>
+                    </div>
+                    <ul id="recent-distribution-list" class="recent-distribution-list" aria-live="polite">
+                        <li class="recent-empty">Son qeydlər yüklənir…</li>
+                    </ul>
+                </section>
+                <section class="dashboard-area-summary" aria-label="Sahədə uzun müddət qalanlar">
+                    <div class="home-recent-heading">
+                        <div class="home-list-heading home-list-heading-area">
+                            <span class="home-list-heading-mark" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7v5l3.3 2"></path><path d="M17.8 5.8 20 3.6"></path></svg>
+                            </span>
+                            <span class="home-list-heading-copy"><span class="home-list-eyebrow">YIĞILMA MÜDDƏTİ</span><h2>Sahədə uzun müddət qalanlar</h2></span>
+                        </div>
+                        <button id="area-summary-open" class="recent-open-button" type="button" aria-label="Sahə ölçülərinə bax">Hamısına bax <span aria-hidden="true">›</span></button>
+                    </div>
+                    <ul id="dashboard-oldest-list" class="recent-distribution-list dashboard-oldest-list" aria-live="polite">
+                        <li class="recent-empty">Sahə qeydləri yüklənir...</li>
+                    </ul>
+                </section>
+            </div>
+        </section>
+
+        <section id="english-practice-view" class="view english-practice-view" hidden>
+            <div class="english-app-topbar">
+                <button id="english-back" class="english-back-button" type="button"><span aria-hidden="true">←</span> Əsas tətbiq</button>
+                <div class="english-brand"><span class="english-brand-mark">W</span><span><strong>WORD SHUFFLE</strong><small>ENGLISH MINI GAME</small></span></div>
+                <span class="english-app-tag">A1—B1</span>
+            </div>
+            <div class="english-page-heading">
+                <div class="english-page-kicker">DAILY CHALLENGE <span>· 01</span></div>
+                <h2>Sözləri düz. Cümləni qur.</h2>
+                <p>Qarışıq ingilis sözlərini düzgün sırala. Hər düzgün cavab yeni məşq açır.</p>
+            </div>
+            <div class="english-practice-grid">
+                <article class="english-game-card">
+                    <div class="english-game-top">
+                        <span id="english-level" class="english-level">A1 · Başlanğıc</span>
+                        <span id="english-counter" class="english-counter">1 / 10</span>
+                    </div>
+                    <div class="english-progress"><span id="english-progress-bar"></span></div>
+                    <div class="english-mistake-meter"><span id="english-run-error-label">BU RAUNDA SƏHV: 0 / 5</span><div id="english-mistake-pips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div>
+                    <div class="english-prompt-label">BU CÜMLƏNİ İNGİLİSCƏ QUR</div>
+                    <p id="english-meaning" class="english-meaning"></p>
+                    <div id="english-answer" class="english-answer empty" aria-label="Cümləni quracağınız sahə"></div>
+                    <div id="english-word-bank" class="english-word-bank" aria-label="Seçiləcək sözlər"></div>
+                    <div class="english-actions">
+                        <button id="english-check" class="english-primary-button" type="button">Yoxla <span aria-hidden="true">→</span></button>
+                        <button id="english-hint" class="english-secondary-button" type="button">İpucu</button>
+                        <button id="english-clear" class="english-text-button" type="button">Təmizlə</button>
+                    </div>
+                    <p id="english-feedback" class="english-feedback" role="status" aria-live="polite"></p>
+                </article>
+                <aside class="english-side-card">
+                    <div class="english-side-heading"><span class="english-side-mark" aria-hidden="true">✦</span><div><span>MƏŞQ PANELİ</span><h3>Davam et</h3></div></div>
+                    <p class="english-side-copy">Sözlərə basıb yuxarıdakı yerə yığ. Seçdiyin sözü geri qaytarmaq üçün onun özünə bas.</p>
+                    <div class="english-stats">
+                        <div><span>Düz cavab</span><strong id="english-score">0</strong></div>
+                        <div><span>Səhv cavab</span><strong id="english-wrong">0</strong></div>
+                        <div><span>Cümlələr</span><strong id="english-sentence-count">10</strong></div>
+                    </div>
+                    <details class="english-add-panel">
+                        <summary><span>Öz cümləni əlavə et</span><b aria-hidden="true">＋</b></summary>
+                        <form id="english-add-form" class="english-add-form">
+                            <label>İngiliscə cümlə<input id="english-new-sentence" type="text" maxlength="140" placeholder="Məsələn: The ship is ready." required></label>
+                            <label>Azərbaycanca mənası<input id="english-new-meaning" type="text" maxlength="180" placeholder="Gəmi hazırdır." required></label>
+                            <label>Səviyyə<select id="english-new-level"><option value="A1">A1 · Başlanğıc</option><option value="A2">A2 · Əsas</option><option value="B1">B1 · Orta</option></select></label>
+                            <button type="submit">Yadda saxla <span aria-hidden="true">＋</span></button>
+                        </form>
+                        <p class="english-local-note">Əlavə etdiyin cümlələr bu cihazda saxlanılır.</p>
+                    </details>
+                    <div class="english-custom-heading"><span>ƏLAVƏ ETDİKLƏRİM</span><strong id="english-custom-count">0</strong></div>
+                    <ul id="english-custom-list" class="english-custom-list"><li>Hələ cümlə əlavə edilməyib.</li></ul>
+                </aside>
+            </div>
+        </section>
+
+        <section id="distribution-view" class="view distribution-view" hidden>
+            <div class="journal-page-heading">
+                <div class="journal-page-kicker"><span class="dashboard-live-dot"></span> MALLARIN TARİXÇƏSİ</div>
+                <div class="journal-heading-row">
+                    <div>
+                        <h2>Paylama jurnalı</h2>
+                        <p>Verilən malları, tarixləri və alan işçiləri izləyin.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="journal-toolbar">
+                <div class="journal-status-row">
+                    <span class="journal-status-label">JURNALIN VƏZİYYƏTİ</span>
+                    <p id="distribution-status" class="journal-status" role="status" aria-live="polite">Jurnal yüklənir…</p>
+                </div>
+                <div class="journal-actions">
+                    <button id="refresh-distribution" class="primary-button" type="button"><span aria-hidden="true">↻</span> Yenilə</button>
+                    <button id="issue-goods" class="secondary-button issue-goods-button" type="button"><span aria-hidden="true">＋</span> Mal ver</button>
+                    <button id="distribution-month-report-open" class="secondary-button distribution-month-report-open" type="button"><span aria-hidden="true">▤</span> Aylıq hesabat</button>
+                </div>
+            </div>
+            <form id="distribution-search-form" class="distribution-search" role="search">
+                <label class="visually-hidden" for="distribution-search-input">Paylama jurnalında axtar</label>
+                <div class="distribution-search-field"><span aria-hidden="true">⌕</span><input id="distribution-search-input" type="search" placeholder="Mal, kod, işçi, şöbə və ya tarix axtar…" autocomplete="off"></div>
+                <button class="primary-button" type="submit">Axtar <span aria-hidden="true">→</span></button>
+                <button id="distribution-search-clear" class="secondary-button" type="button" aria-label="Axtarışı təmizlə"><span aria-hidden="true">×</span> Təmizlə</button>
+            </form>
+            <div class="journal-results-heading"><span>PAYLAMA QEYDLƏRİ</span><strong id="journal-match-count">—</strong></div>
+            <div id="distribution-results" class="journal-results-panel" hidden>
+                <ul id="distribution-list" class="product-list">
+                    <li class="empty-result">Jurnal yüklənir…</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="issue-goods-view" class="view issue-goods-view" hidden>
+            <div class="issue-goods-page-heading">
+                <button id="issue-goods-back" class="issue-goods-back" type="button" aria-label="Əvvəlki səhifəyə qayıt">← <span>Geri</span></button>
+                <div class="issue-goods-page-kicker"><span class="dashboard-live-dot"></span> ANBAR QALIĞI</div>
+                <h2>Mal ver</h2>
+                <p>Anbarda olan malı seçin, miqdarını və kimə verildiyini qeyd edin.</p>
+            </div>
+            <div class="issue-goods-toolbar">
+                <label class="issue-goods-search" for="issue-goods-search-input"><span aria-hidden="true">⌕</span><input id="issue-goods-search-input" type="search" placeholder="Malın adı, kodu və ya rəfi ilə axtar…" autocomplete="off"></label>
+                <button id="issue-goods-refresh" class="secondary-button" type="button" aria-label="Anbar siyahısını yenilə">↻ Yenilə</button>
+            </div>
+            <div class="issue-goods-report-actions"><button id="issue-goods-month-report-open" class="secondary-button" type="button"><span aria-hidden="true">▤</span> Mal Girişi · Aylıq hesabat <span aria-hidden="true">↗</span></button></div>
+            <p id="issue-goods-status" class="issue-goods-status" role="status" aria-live="polite">Anbar siyahısı yüklənir…</p>
+            <ul id="issue-goods-list" class="issue-goods-list" aria-label="Anbardakı mallar"></ul>
+        </section>
+
+        <section id="area-measurement-view" class="view area-measurement-view" hidden>
+            <div class="area-page-heading">
+                <div class="area-page-kicker"><span class="dashboard-live-dot"></span> ƏRAZİ QEYDLƏRİ</div>
+                <h2>Sahə ölçümü</h2>
+                <p id="area-page-description">Ölçüləri və neçə gündür yığıldığını yazın. Sahə və gün sayı avtomatik hesablansın.</p>
+            </div>
+            <div class="area-records-heading">
+                <div><span>YADDA SAXLANANLAR</span><strong id="area-record-count">0 qeyd</strong></div>
+                <output id="area-total-value">0,00 m²</output>
+            </div>
+            <ul id="area-record-list" class="area-record-list" aria-live="polite">
+                <li class="area-empty">Hələ ölçü qeydi yoxdur.</li>
+            </ul>
+            <form id="area-measurement-form" class="area-form">
+                <div class="area-form-grid">
+                    <label class="area-field">
+                        <span>Şirkətin adı</span>
+                        <input id="area-company" type="text" maxlength="120" autocomplete="organization" placeholder="Şirkətin adını yazın" required>
+                    </label>
+                    <label class="area-field">
+                        <span>Gəminin adı</span>
+                        <input id="area-vessel" type="text" maxlength="120" placeholder="Gəminin adını yazın" required>
+                    </label>
+                    <div class="area-field area-field-full">
+                        <span>Yığıldığı sahələr</span>
+                        <div id="area-measurement-list" class="area-measurement-list"></div>
+                        <button id="add-area-measurement" class="area-add-measurement" type="button"><span aria-hidden="true">＋</span> Yeni sahə əlavə et</button>
+                    </div>
+                    <label class="area-field area-field-full">
+                        <span>Tarix</span>
+                        <input id="area-date" type="date" required>
+                    </label>
+                    <label class="area-field area-field-full">
+                        <span>Qeyd <small>istəyə bağlı</small></span>
+                        <textarea id="area-note" rows="2" maxlength="300" placeholder="Əlavə qeyd yazın"></textarea>
+                    </label>
+                </div>
+                <div class="area-calculation" aria-live="polite">
+                    <span>Ümumi sahə</span>
+                    <output id="area-calculated-value">0,00 m²</output>
+                </div>
+                <button class="primary-button area-save-button" type="submit"><span aria-hidden="true">＋</span> Ölçünü yadda saxla</button>
+                <p class="area-sync-note">Qeydlər Google Sheets-də saxlanılır.</p>
+            </form>
+        </section>
+
+        <section id="maray-water-view" class="view maray-water-view" hidden>
+            <div class="area-page-heading">
+                <div class="area-page-kicker"><span class="dashboard-live-dot"></span> SU TƏHVİL QEYDLƏRİ</div>
+                <h2>Məray Su</h2>
+                <p>Gələn suyu kimə və neçə butulka təhvil verdiyinizi qaimə kimi qeyd edin.</p>
+            </div>
+            <form id="maray-water-form" class="area-form maray-water-form">
+                <div class="area-form-grid">
+                    <label class="area-field area-field-full">
+                        <span>Tarix</span>
+                        <input id="maray-water-date" type="date" required>
+                    </label>
+                    <div class="area-field area-field-full maray-water-allocation-field">
+                        <span>Təhvil verilən yerlər</span>
+                        <div class="maray-water-allocation-head" aria-hidden="true"><span>Butulka sayı</span><span>Təhvil yeri</span></div>
+                        <div id="maray-water-allocation-rows" class="maray-water-allocation-rows"></div>
+                        <button id="maray-water-add-allocation" class="maray-water-add-allocation" type="button"><span aria-hidden="true">＋</span> Başqa yer əlavə et</button>
+                    </div>
+                    <label class="area-field area-field-full">
+                        <span>Qəbul edən şəxsin adı</span>
+                        <input id="maray-water-recipient" type="text" maxlength="100" autocomplete="name" placeholder="Ad və soyad" required>
+                    </label>
+                    <label class="area-field area-field-full">
+                        <span>Qeyd <small>istəyə bağlı</small></span>
+                        <textarea id="maray-water-note" rows="2" maxlength="300" placeholder="Əlavə məlumat"></textarea>
+                    </label>
+                </div>
+                <button id="maray-water-save" class="primary-button area-save-button maray-water-save" type="submit"><span aria-hidden="true">＋</span> Qaiməni yadda saxla</button>
+                <button id="maray-water-cancel-edit" class="maray-water-cancel-edit" type="button" hidden>Dəyişiklikdən imtina et</button>
+                <p id="maray-water-sync-note" class="area-sync-note" role="status" aria-live="polite">Excel bağlantısı qurulur.</p>
+            </form>
+            <div class="maray-water-summary">
+                <div><span>ÜMUMİ TƏHVİLLƏR</span><strong id="maray-water-count">0 qaimə</strong></div>
+                <output id="maray-water-total">0 butulka</output>
+            </div>
+            <ul id="maray-water-record-list" class="maray-water-record-list" aria-live="polite">
+                <li class="maray-water-empty">Hələ Məray Su təhvili qeyd edilməyib.</li>
+            </ul>
+            <button id="maray-water-home" class="secondary-button maray-water-home" type="button"><span aria-hidden="true">⌂</span> Ana səhifəyə qayıt</button>
+        </section>
+
+        <section id="area-count-view" class="view area-count-view" hidden>
+            <div class="area-page-heading">
+                <div class="area-page-kicker"><span class="dashboard-live-dot"></span> ƏRAZİ QEYDLƏRİ</div>
+                <h2>Ərazi sayımı</h2>
+                <p>Saydığınız əşyaları, yerləri və miqdarları yazın. Hazır hesabatı Excel faylı kimi endirin.</p>
+            </div>
+            <form id="area-count-form" class="area-form area-count-form">
+                <div class="area-form-grid">
+                    <label class="area-field area-field-full">
+                        <span>Sayım tarixi</span>
+                        <input id="area-count-date" type="date" required>
+                    </label>
+                    <div class="area-field area-field-full area-count-list-field">
+                        <span>Sayım qeydləri</span>
+                        <div class="area-count-row-head" aria-hidden="true"><span>Əşyanın adı</span><span>Yer / zona</span><span>Miqdar</span></div>
+                        <div id="area-count-rows" class="area-count-rows"></div>
+                        <button id="area-count-add-row" class="area-count-add-row" type="button"><span aria-hidden="true">＋</span> Başqa qeyd əlavə et</button>
+                    </div>
+                    <label class="area-field area-field-full">
+                        <span>Ümumi qeyd <small>istəyə bağlı</small></span>
+                        <textarea id="area-count-note" rows="2" maxlength="400" placeholder="Əlavə məlumat"></textarea>
+                    </label>
+                </div>
+                <div id="area-count-actions" class="area-count-actions" hidden>
+                    <button id="area-count-save" class="secondary-button area-count-save" type="button"><span aria-hidden="true">✓</span> Yadda saxla</button>
+                    <button id="area-count-export" class="primary-button area-count-export" type="button"><span aria-hidden="true">↓</span> Excel yüklə</button>
+                </div>
+                <p id="area-count-status" class="area-count-status" role="status" aria-live="polite">Sayım qeydləri bu cihazda saxlanır; istənilən vaxt Excel kimi endirə bilərsiniz.</p>
+            </form>
+            <section class="area-count-saved" aria-labelledby="area-count-saved-title">
+                <div class="area-count-saved-heading">
+                    <div><span class="area-count-saved-kicker">BU CİHAZDA</span><h3 id="area-count-saved-title">Yadda saxlanılan sayımlar</h3></div>
+                    <span id="area-count-saved-count" class="area-count-saved-count">0 qeyd</span>
+                </div>
+                <label class="area-field area-count-search-field"><span>Sayım axtar</span><input id="area-count-search" type="search" placeholder="Əşya, yer və ya tarix yazın" autocomplete="off"></label>
+                <div id="area-count-saved-list" class="area-count-saved-list" aria-live="polite"></div>
+            </section>
+            <button id="area-count-home" class="secondary-button area-count-home" type="button"><span aria-hidden="true">⌂</span> Ana səhifəyə qayıt</button>
+        </section>
+
+        <section id="warehouse-plan-view" class="view warehouse-plan-view" hidden>
+            <header class="warehouse-plan-page-heading">
+                <div>
+                    <div class="warehouse-plan-kicker"><span class="dashboard-live-dot"></span> PALET YERLƏŞİMİ</div>
+                    <h2 id="warehouse-plan-title">Anbar 01</h2>
+                    <p id="warehouse-plan-dimensions">42 m × 30 m · 1 260 m²</p>
+                </div>
+                <div class="warehouse-plan-header-actions">
+                    <div class="warehouse-plan-add-wrap">
+                        <button id="warehouse-plan-add" class="warehouse-plan-add" type="button"><span aria-hidden="true">＋</span> Palet əlavə et</button>
+                        <div id="warehouse-plan-color-options" class="warehouse-plan-color-options" hidden aria-label="Palet rəngi seçin"></div>
+                    </div>
+                    <button id="warehouse-plan-text-add" class="warehouse-plan-text-add" type="button"><span aria-hidden="true">T</span> Mətn əlavə et</button>
+                    <button id="warehouse-plan-text-smaller" class="warehouse-plan-text-size" type="button" aria-label="Seçilmiş yazını kiçilt" title="Seçilmiş yazını kiçilt">A−</button>
+                    <button id="warehouse-plan-text-larger" class="warehouse-plan-text-size" type="button" aria-label="Seçilmiş yazını böyüt" title="Seçilmiş yazını böyüt">A+</button>
+                    <button id="warehouse-plan-delete-mode" class="warehouse-plan-delete-mode" type="button"><span aria-hidden="true">−</span> Palet / yazı sil</button>
+                    <button id="warehouse-plan-info-button" class="warehouse-plan-info-button" type="button"><span aria-hidden="true">ⓘ</span> Anbar məlumatı</button>
+                    <div class="warehouse-plan-picker-wrap">
+                        <button id="warehouse-plan-picker-toggle" class="warehouse-plan-picker-toggle" type="button" aria-expanded="false" aria-controls="warehouse-plan-picker-options">
+                            <span id="warehouse-plan-picker-label">Anbar 01</span><span class="warehouse-plan-picker-chevron" aria-hidden="true">⌄</span>
+                        </button>
+                        <div id="warehouse-plan-picker-options" class="warehouse-plan-picker-options" hidden></div>
+                    </div>
+                </div>
+            </header>
+            <p id="warehouse-plan-status" class="warehouse-plan-status" role="status" aria-live="polite">Plan bu cihazda saxlanılır.</p>
+            <div class="warehouse-plan-scroll">
+                <div id="warehouse-plan-stage" class="warehouse-plan-stage" aria-label="Anbar daxilində paletlərin yerləşmə planı">
+                    <svg id="warehouse-plan-structure" class="warehouse-plan-structure" viewBox="0 0 1000 980" role="img" aria-label="Anbar 09: 36 metr en, 30 metr uzunluq, sütunlar arası 6 metr, 12 metr və 6 metr məsafələr, aşağı mərkəzdə 6 metrlik giriş" focusable="false">
+                        <defs>
+                            <pattern id="warehouse-plan-minor-grid" width="25" height="25" patternUnits="userSpaceOnUse">
+                                <path d="M25 0H0V25" fill="none" stroke="#d7d7d7" stroke-width="1"></path>
+                            </pattern>
+                            <pattern id="warehouse-plan-major-grid" width="150" height="150" patternUnits="userSpaceOnUse">
+                                <rect width="150" height="150" fill="url(#warehouse-plan-minor-grid)"></rect>
+                                <path d="M150 0H0V150" fill="none" stroke="#aeb4b0" stroke-width="2"></path>
+                            </pattern>
+                        </defs>
+                        <rect x="50" y="100" width="900" height="750" fill="url(#warehouse-plan-major-grid)"></rect>
+                        <path d="M50 100H950 M50 100V850 M950 100V850 M50 850H500 M650 850H950" fill="none" stroke="#1d211f" stroke-width="4"></path>
+                        <g class="warehouse-plan-columns" fill="#666" stroke="#171717" stroke-width="2">
+                            <rect x="43" y="94" width="14" height="12"></rect><rect x="185" y="94" width="30" height="12"></rect><rect x="335" y="94" width="30" height="12"></rect><rect x="485" y="94" width="30" height="12"></rect><rect x="635" y="94" width="30" height="12"></rect><rect x="785" y="94" width="30" height="12"></rect><rect x="943" y="94" width="14" height="12"></rect>
+                            <rect x="43" y="390" width="14" height="20"></rect><rect x="185" y="390" width="30" height="20"></rect><rect x="335" y="390" width="30" height="20"></rect><rect x="485" y="390" width="30" height="20"></rect><rect x="635" y="390" width="30" height="20"></rect><rect x="785" y="390" width="30" height="20"></rect><rect x="943" y="390" width="14" height="20"></rect>
+                            <rect x="43" y="540" width="14" height="20"></rect><rect x="185" y="540" width="30" height="20"></rect><rect x="335" y="540" width="30" height="20"></rect><rect x="485" y="540" width="30" height="20"></rect><rect x="635" y="540" width="30" height="20"></rect><rect x="785" y="540" width="30" height="20"></rect><rect x="943" y="540" width="14" height="20"></rect>
+                            <rect x="43" y="844" width="14" height="12"></rect><rect x="185" y="844" width="30" height="12"></rect><rect x="335" y="844" width="30" height="12"></rect><rect x="485" y="844" width="30" height="12"></rect><rect x="635" y="844" width="30" height="12"></rect><rect x="785" y="844" width="30" height="12"></rect><rect x="943" y="844" width="14" height="12"></rect>
+                        </g>
+                        <path d="M50 400H950 M50 550H950" fill="none" stroke="#adb4af" stroke-width="1.5" stroke-dasharray="5 5"></path>
+                        <g class="warehouse-plan-measurements" fill="none" stroke="#222" stroke-width="2" stroke-dasharray="8 5">
+                            <path d="M50 61H950 M50 61V91 M950 61V91"></path>
+                            <path d="M24 100V850 M24 100H44 M24 850H44"></path>
+                            <path d="M976 100V400 M960 100H982 M960 400H982 M976 400V550 M960 550H982 M976 550V850 M960 850H982"></path>
+                            <path d="M50 940H200 M200 940H350 M350 940H500 M500 940H650 M650 940H800 M800 940H950"></path>
+                            <path d="M50 850V940 M200 850V940 M350 850V940 M500 850V940 M650 850V940 M800 850V940 M950 850V940"></path>
+                            <path d="M500 920H650 M500 912V928 M650 912V928"></path>
+                        </g>
+                        <g class="warehouse-plan-measurement-labels" fill="#171717" font-family="Arial, sans-serif" font-weight="700" text-anchor="middle">
+                            <text x="500" y="48" font-size="25">36 m</text>
+                            <text x="13" y="475" font-size="23" transform="rotate(-90 13 475)">30 m</text>
+                            <text x="990" y="254" font-size="16" transform="rotate(90 990 254)">12 m</text>
+                            <text x="990" y="485" font-size="16" transform="rotate(90 990 485)">6 m</text>
+                            <text x="990" y="704" font-size="16" transform="rotate(90 990 704)">12 m</text>
+                            <text x="125" y="969" font-size="15">6 m</text><text x="275" y="969" font-size="15">6 m</text><text x="425" y="969" font-size="15">6 m</text><text x="575" y="969" font-size="15">6 m</text><text x="725" y="969" font-size="15">6 m</text><text x="875" y="969" font-size="15">6 m</text>
+                        </g>
+                        <rect class="warehouse-plan-door" x="500" y="850" width="150" height="68" fill="#d7d7d7" stroke="#161616" stroke-width="3"></rect>
+                        <text class="warehouse-plan-door-label" x="575" y="891" fill="#151515" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="middle">Giriş</text>
+                    </svg>
+                    <div id="warehouse-plan-pallets" class="warehouse-plan-pallets"></div>
+                    <div id="warehouse-plan-labels" class="warehouse-plan-labels" aria-label="Anbar planındakı yazılar"></div>
+                    <div id="warehouse-plan-placement-hint" class="warehouse-plan-placement-hint" hidden>Paleti qoymaq istədiyiniz yerə toxunun</div>
+                </div>
+            </div>
+            <p class="warehouse-plan-help">Paletləri əlavə edib planda yerləşdirin və “Yadda saxla” basın. “Mətn əlavə et” ilə yazını daxil edin, sonra çertyojda yerini seçin; yazını sürüşdürün və seçib A− / A+ ilə ölçüsünü dəyişin. Dəyişikliklər ortaq Firestore planında saxlanılır. Şirkət, tarix və malların tutduğu sahəni “Anbar məlumatı” bölməsində redaktə edin.</p>
+            <button id="warehouse-plan-home" class="secondary-button warehouse-plan-home" type="button"><span aria-hidden="true">⌂</span> Ana səhifəyə qayıt</button>
+        </section>
+
+        <section id="reminders-view" class="view reminders-view" hidden>
+            <div class="reminder-page-heading">
+                <div class="reminder-page-kicker"><span class="dashboard-live-dot"></span> GÜNDƏLİK QEYDLƏR</div>
+                <h2>Xatırlatmalar</h2>
+                <p>Vacib işi və vaxtını yazın. Xatırlatmalar daxil olduğunuz hesaba ayrıca bağlanır.</p>
+            </div>
+            <section class="reminder-notification-panel" aria-label="Bildiriş icazəsi">
+                <div class="reminder-notification-icon" aria-hidden="true">◷</div>
+                <div class="reminder-notification-copy">
+                    <strong id="reminder-permission-title">Telefon bildirişləri</strong>
+                    <p id="reminder-permission-note">Xatırlatmaları hesabınızda saxlamaq üçün daxil olun.</p>
+                </div>
+                <button id="reminder-notification-enable" class="reminder-permission-button" type="button">İcazəni aktiv et</button>
+            </section>
+            <form id="reminder-form" class="reminder-form">
+                <label class="reminder-field">
+                    <span>Nəyi xatırladaq?</span>
+                    <input id="reminder-title" type="text" maxlength="160" autocomplete="off" placeholder="Məsələn: Qonaqlar gələcək" required>
+                </label>
+                <label class="reminder-field">
+                    <span>Tarix və saat</span>
+                    <input id="reminder-datetime" type="datetime-local" required>
+                </label>
+                <div class="reminder-offset"><span aria-hidden="true">◷</span> 10 dəqiqə və 5 dəqiqə qalmış, bir də vaxtı çatanda bildiriş</div>
+                <button class="primary-button reminder-save-button" type="submit"><span aria-hidden="true">＋</span> Xatırlatma əlavə et</button>
+            </form>
+            <div class="reminders-list-heading">
+                <div><span>YADDA SAXLANANLAR</span><strong id="reminder-count">0 aktiv</strong></div>
+            </div>
+            <ul id="reminder-list" class="reminder-list" aria-live="polite">
+                <li class="reminder-empty">Hələ xatırlatma əlavə edilməyib.</li>
+            </ul>
+        </section>
+
+        <section id="approval-view" class="view approval-view" hidden>
+            <div class="approval-page-heading">
+                <div class="approval-page-kicker"><span class="dashboard-live-dot"></span> HESAB TƏSDİQİ</div>
+                <h2>Qeydiyyat sorğuları</h2>
+                <p>Yeni istifadəçiləri yoxlayıb tətbiq hesabını təsdiqləyin.</p>
+            </div>
+            <div class="approval-toolbar">
+                <div><span>GÖZLƏYƏN SORĞULAR</span><strong id="approval-count">0</strong></div>
+                <button id="approval-refresh" class="secondary-button" type="button"><span aria-hidden="true">↻</span> Yenilə</button>
+            </div>
+            <p id="approval-status" class="approval-status" role="status" aria-live="polite">Sorğular yüklənir…</p>
+            <ul id="approval-list" class="approval-list" aria-live="polite"></ul>
+        </section>
+
+        <section id="account-view" class="view account-view" hidden>
+            <div class="account-page-shell">
+                <button id="account-back" class="account-back-button" type="button"><span aria-hidden="true">←</span> Ana səhifəyə qayıt</button>
+                <div class="account-page-card">
+                    <div class="account-page-brand">
+                        <span class="account-page-brand-icon" aria-hidden="true"><img src="images/app-mark.png" alt=""></span>
+                        <span>LİMAN ANBARI <i></i> HESAB MƏRKƏZİ</span>
+                    </div>
+                    <span class="account-login-mark" aria-hidden="true">↗</span>
+                    <p class="account-page-kicker">ŞƏXSİ İŞ SAHƏSİ</p>
+                    <h2 id="account-dialog-title">Hesaba daxil ol</h2>
+                    <p id="account-dialog-description" class="account-page-description">Xatırlatmalarınız bu hesabda ayrıca saxlanacaq.</p>
+                    <form id="account-login-form" class="account-login-form" autocomplete="on">
+                        <label id="account-name-field" class="account-login-field" hidden><span>Ad və soyad</span><input id="account-name" type="text" minlength="2" maxlength="80" autocomplete="name" disabled></label>
+                        <fieldset id="account-avatar-field" class="account-avatar-field" hidden>
+                            <legend>Profil şəkli</legend>
+                            <button id="account-avatar-picker-toggle" class="account-avatar-picker-toggle" type="button" aria-expanded="false" aria-controls="account-avatar-options">
+                                <span id="account-avatar-picker-preview" class="account-avatar-picker-preview" aria-hidden="true"></span>
+                                <span id="account-avatar-picker-label">Avatar seç</span>
+                                <span class="account-avatar-picker-chevron" aria-hidden="true">⌄</span>
+                            </button>
+                            <div id="account-avatar-options" class="account-avatar-options" role="group" aria-label="Avatar seçimi" hidden>
+                                <button type="button" class="account-avatar-option is-selected" data-account-avatar="box" aria-label="Anbar avatarı" aria-pressed="true"><span class="account-avatar-image" aria-hidden="true"></span><small>Girl1</small></button>
+                                <button type="button" class="account-avatar-option" data-account-avatar="ship" aria-label="Gəmi avatarı" aria-pressed="false"><span class="account-avatar-image" aria-hidden="true"></span><small>Girl2</small></button>
+                                <button type="button" class="account-avatar-option" data-account-avatar="anchor" aria-label="Liman avatarı" aria-pressed="false"><span class="account-avatar-image" aria-hidden="true"></span><small>Boy1</small></button>
+                                <button type="button" class="account-avatar-option" data-account-avatar="vest" aria-label="İşçi avatarı" aria-pressed="false"><span class="account-avatar-image" aria-hidden="true"></span><small>Boy2</small></button>
+                                <button type="button" class="account-avatar-option" data-account-avatar="crane" aria-label="Sahə avatarı" aria-pressed="false"><span class="account-avatar-image" aria-hidden="true"></span><small>Gemi</small></button>
+                                <button type="button" class="account-avatar-option" data-account-avatar="clipboard" aria-label="Qeyd avatarı" aria-pressed="false"><span class="account-avatar-image" aria-hidden="true"></span><small>Gemi-sukani</small></button>
+                            </div>
+                            <input id="account-avatar" type="hidden" value="box">
+                        </fieldset>
+                        <label class="account-login-field"><span>E-poçt</span><input id="account-email" type="email" autocomplete="username" required></label>
+                        <label class="account-login-field"><span>Şifrə</span><input id="account-password" type="password" minlength="6" autocomplete="current-password" required></label>
+                        <p id="account-login-error" class="account-login-error" role="alert" hidden></p>
+                        <button class="primary-button account-login-submit" type="submit">Daxil ol</button>
+                        <p id="account-login-footnote" class="account-login-footnote">Hesabınız yoxdursa, qeydiyyat sorğusu göndərin.</p>
+                        <button id="account-mode-toggle" class="account-mode-toggle" type="button">Qeydiyyat sorğusu göndər</button>
+                    </form>
+                    <div class="account-page-bottom"><span class="dashboard-live-dot"></span> Təsdiqli hesab · Şəxsi xatırlatmalar</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-view" class="view about-view" hidden>
+            <div class="about-page-kicker"><span class="dashboard-live-dot"></span> LİMAN ANBARI · TƏTBİQ</div>
+            <div class="about-card">
+                <div class="about-hero">
+                    <div class="about-icon" aria-hidden="true">i</div>
+                    <p class="about-kicker">TƏTBİQ HAQQINDA</p>
+                    <h2>Liman Anbarı</h2>
+                    <p class="about-intro">QR ilə rəf axtarışı, sahə ölçüsü, su təhvil qeydləri, xatırlatma və paylama əməliyyatlarını bir yerdə idarə etmək üçün hazırlanıb.</p>
+                    <span class="about-version">Versiya <strong>1.71.0</strong></span>
+                </div>
+                <section class="about-feature-section" aria-labelledby="about-features-title">
+                    <div class="about-section-heading">
+                        <div>
+                            <span class="about-label">GÜNDƏLİK İŞ ÜÇÜN</span>
+                            <h3 id="about-features-title">Tətbiqin imkanları</h3>
+                        </div>
+                        <span class="about-feature-count" aria-hidden="true">05</span>
+                    </div>
+                    <div class="about-feature-grid">
+                        <article class="about-feature-card">
+                            <span class="about-feature-icon" aria-hidden="true">⌗</span>
+                            <div><h4>QR ilə rəf axtarışı</h4><p>Rəf kodunu oxudub oradakı malları və mövcud sayını görün.</p></div>
+                        </article>
+                        <article class="about-feature-card">
+                            <span class="about-feature-icon" aria-hidden="true">▤</span>
+                            <div><h4>Paylama jurnalı</h4><p>Verilən malları, miqdarları, tarixləri və alan işçiləri izləyin.</p></div>
+                        </article>
+                        <article class="about-feature-card">
+                            <span class="about-feature-icon" aria-hidden="true">⌕</span>
+                            <div><h4>Rahat axtarış</h4><p>Mal adına, koda, işçiyə, şöbəyə və tarixə görə axtarın.</p></div>
+                        </article>
+                        <article class="about-feature-card">
+                            <span class="about-feature-icon" aria-hidden="true">◷</span>
+                            <div><h4>Canlı günün icmalı</h4><p>Saatı, tarixi və bugünkü paylama sayını izləyin; yeni gün başlayanda icmal yenilənir.</p></div>
+                        </article>
+                        <article class="about-feature-card">
+                            <span class="about-feature-icon" aria-hidden="true">⏰</span>
+                            <div><h4>Xatırlatmalar</h4><p>Vacib işləri qeyd edin; bildirişlər 10 dəq, 5 dəq qalmış və vaxtında gəlsin.</p></div>
+                        </article>
+                    </div>
+                    <p class="about-feature-note">Jurnalı açanda və ya “Yenilə” düyməsinə basanda qeydləri təzələyin.</p>
+                </section>
+                <div class="about-details">
+                    <div class="about-detail">
+                        <span class="about-detail-icon" aria-hidden="true">✦</span>
+                        <div><span class="about-label">HAZIRLANMA İLİ</span><strong>2026</strong></div>
+                    </div>
+                    <div class="about-detail">
+                        <span class="about-detail-icon" aria-hidden="true">↻</span>
+                        <div><span class="about-label">SON YENİLƏNMƏ</span><strong>15 oktyabr 2026</strong></div>
+                    </div>
+                    <div class="about-detail">
+                        <span class="about-detail-icon" aria-hidden="true">♙</span>
+                        <div><span class="about-label">HAZIRLAYAN</span><strong>Ceyhun</strong></div>
+                    </div>
+                    <div class="about-purpose">
+                        <span class="about-label">MƏQSƏD</span>
+                        <p>Rəf axtarışını, sahə ölçülərini, vacib xatırlatmaları və paylama tarixçəsini bir tətbiqdə toplamaq.</p>
+                    </div>
+                </div>
+            </div>
+            <button id="about-home" class="secondary-button" type="button">Ana səhifəyə qayıt</button>
+        </section>
+
+        <section id="monthly-report-view" class="view monthly-report-view" hidden>
+            <div class="monthly-report-heading">
+                <div class="monthly-report-kicker"><span class="dashboard-live-dot"></span> MAL GİRİŞİ</div>
+                <h2>Aylıq hesabat</h2>
+                <p>Seçilmiş ayda alınan malları və xərclənən vəsaiti nəzərdən keçirin.</p>
+            </div>
+            <div class="monthly-report-toolbar">
+                <label class="area-field monthly-report-month-field" for="monthly-report-month"><span>Hesabat ayı</span><select id="monthly-report-month"></select></label>
+                <button id="monthly-report-refresh" class="secondary-button monthly-report-refresh" type="button"><span aria-hidden="true">↻</span> Yenilə</button>
+                <button id="monthly-report-download" class="primary-button monthly-report-download" type="button" disabled><span aria-hidden="true">↓</span> Excel yüklə</button>
+            </div>
+            <p id="monthly-report-status" class="monthly-report-status" role="status" aria-live="polite">Mal Girişi məlumatı yüklənir…</p>
+            <div class="monthly-report-summary">
+                <div><span>ALINMA QEYDLƏRİ</span><strong id="monthly-report-record-count">0</strong></div>
+                <div><span>ALINAN MALLAR</span><strong id="monthly-report-goods-count">0</strong></div>
+                <div><span>ÜMUMİ XƏRC</span><strong id="monthly-report-total">0 ₼</strong></div>
+            </div>
+            <div class="monthly-report-list-heading"><span>SEÇİLMİŞ AYIN ALIŞLARI</span></div>
+            <ul id="monthly-report-list" class="monthly-report-list" aria-live="polite"></ul>
+            <button id="monthly-report-home" class="secondary-button monthly-report-home" type="button"><span aria-hidden="true">←</span> Əvvəlki səhifəyə qayıt</button>
+        </section>
+
+        <section id="distribution-monthly-report-view" class="view monthly-report-view" hidden>
+            <div class="monthly-report-heading">
+                <div class="monthly-report-kicker"><span class="dashboard-live-dot"></span> PAYLAMA JURNALI</div>
+                <h2>Aylıq paylama hesabatı</h2>
+                <p>Seçilmiş ayda verilən malları, şöbələri və alan işçiləri nəzərdən keçirin.</p>
+            </div>
+            <div class="monthly-report-toolbar">
+                <label class="area-field monthly-report-month-field" for="distribution-month-report-month"><span>Hesabat ayı</span><select id="distribution-month-report-month"></select></label>
+                <button id="distribution-month-report-refresh" class="secondary-button monthly-report-refresh" type="button"><span aria-hidden="true">↻</span> Yenilə</button>
+                <button id="distribution-month-report-download" class="primary-button monthly-report-download" type="button" disabled><span aria-hidden="true">↓</span> Excel yüklə</button>
+            </div>
+            <p id="distribution-month-report-status" class="monthly-report-status" role="status" aria-live="polite">Paylama jurnalı yüklənir…</p>
+            <div class="monthly-report-summary">
+                <div><span>PAYLAMA QEYDLƏRİ</span><strong id="distribution-month-report-record-count">0</strong></div>
+                <div><span>FƏRQLİ MALLAR</span><strong id="distribution-month-report-goods-count">0</strong></div>
+                <div><span>ŞÖBƏLƏR</span><strong id="distribution-month-report-department-count">0</strong></div>
+            </div>
+            <div class="monthly-report-list-heading"><span>SEÇİLMİŞ AYIN VERİLİŞLƏRİ</span></div>
+            <ul id="distribution-month-report-list" class="monthly-report-list" aria-live="polite"></ul>
+            <button id="distribution-month-report-journal" class="secondary-button monthly-report-home" type="button"><span aria-hidden="true">←</span> Paylama jurnalına qayıt</button>
+        </section>
+
+        <section id="scan-view" class="view scan-view" hidden>
+            <div class="scan-page-heading">
+                <div class="scan-page-kicker"><span class="dashboard-live-dot"></span> QR İLƏ AXTARIŞ</div>
+                <div class="scan-page-heading-row">
+                    <div>
+                        <h2>Rəfi skan et</h2>
+                        <p>QR kodunu kameraya tutub rəf məlumatlarını açın.</p>
+                    </div>
+                    <span class="scan-page-icon" aria-hidden="true"><img src="images/scan-icon.png" alt=""></span>
+                </div>
+            </div>
+            <div class="scan-camera-card">
+                <div class="scan-camera-topline">
+                    <span class="scan-camera-label">KAMERA SKANERİ</span>
+                    <span id="scan-camera-status" class="scan-camera-status"><i></i> Kamera hazırlanır</span>
+                </div>
+                <div class="scan-camera-window">
+                    <div id="reader" aria-label="QR kod skaneri"></div>
+                    <span class="scan-camera-sweep" aria-hidden="true"></span>
+                </div>
+                <div class="scan-camera-hint">
+                    <span class="scan-hint-icon" aria-hidden="true">i</span>
+                    <p>Rəf kodunu çərçivəyə yaxınlaşdırın. Kod oxunan kimi məlumatlar açılacaq.</p>
+                </div>
+            </div>
+            <p id="scan-error" class="message error-message" role="alert" hidden></p>
+            <button id="cancel-scan" class="scan-back-button secondary-button" type="button"><span aria-hidden="true">←</span> Ana səhifəyə qayıt</button>
+        </section>
+
+        <section id="result-view" class="view" hidden>
+            <div class="result-card">
+                <div class="success-mark" aria-hidden="true">✓</div>
+                <p class="eyebrow">SKAN NƏTİCƏSİ</p>
+                <h2 id="ref-title">Rəf</h2>
+                <ul id="product-list" class="product-list"></ul>
+            </div>
+            <button id="return-home" class="primary-button" type="button">
+                <span aria-hidden="true">⌂</span> Ana səhifəyə qayıt
+            </button>
+        </section>
+
+        <p id="data-status" class="message" role="status" hidden></p>
+            <footer class="app-footer">
+            <span>© 2026 Liman Anbarı</span>
+            <span class="footer-credit">Hazırlayan: Ceyhun · QR ilə rəf axtarışı</span>
+            <span class="footer-version">Versiya 1.71.0</span>
+        </footer>
+        <dialog id="warehouse-plan-info-dialog" class="warehouse-plan-dialog" aria-labelledby="warehouse-plan-info-title">
+            <div class="warehouse-plan-dialog-heading">
+                <div><small>ANBAR MƏLUMATLARI</small><h2 id="warehouse-plan-info-title">Anbar 01</h2></div>
+                <button id="warehouse-plan-info-close" class="warehouse-plan-dialog-close" type="button" aria-label="Bağla">×</button>
+            </div>
+            <div class="warehouse-plan-info-metrics">
+                <div><small>ÜMUMİ SAHƏ</small><strong id="warehouse-plan-total-area">0 m²</strong></div>
+                <div><small>MALLARIN TUTDUĞU</small><strong id="warehouse-plan-used-area">0 m²</strong></div>
+                <div><small>BOŞ SAHƏ</small><strong id="warehouse-plan-free-area">0 m²</strong></div>
+                <div><small>PALET SAYI</small><strong id="warehouse-plan-info-pallet-count">0</strong></div>
+            </div>
+            <div id="warehouse-plan-info-summary" class="warehouse-plan-info-summary"></div>
+            <section id="warehouse-plan-info-editor" class="warehouse-plan-info-editor" hidden>
+                <div id="warehouse-plan-company-editor" class="warehouse-plan-company-editor"></div>
+                <button id="warehouse-plan-company-add" class="warehouse-plan-company-add" type="button">＋ Şirkət əlavə et</button>
+                <p id="warehouse-plan-info-editor-status" class="warehouse-plan-info-editor-status" role="status" aria-live="polite"></p>
+            </section>
+            <div class="warehouse-plan-dialog-actions">
+                <button id="warehouse-plan-info-cancel" type="button">Bağla</button>
+                <button id="warehouse-plan-info-save" type="button">Redaktə et</button>
+            </div>
+        </dialog>
+        <dialog id="warehouse-plan-text-dialog" class="warehouse-plan-dialog warehouse-plan-text-dialog" aria-labelledby="warehouse-plan-text-title">
+            <form id="warehouse-plan-text-form" class="warehouse-plan-text-form">
+                <div class="warehouse-plan-dialog-heading">
+                    <div><small>ANBAR PLANI</small><h2 id="warehouse-plan-text-title">Mətn əlavə et</h2></div>
+                    <button id="warehouse-plan-text-close" class="warehouse-plan-dialog-close" type="button" aria-label="Bağla">×</button>
+                </div>
+                <label class="warehouse-plan-text-field"><span>Çertyojda görünəcək yazı</span><input id="warehouse-plan-text-input" type="text" maxlength="100" autocomplete="off" placeholder="Məsələn, Taxıl terminalına" required></label>
+                <p class="warehouse-plan-text-note">Yerləşdirəndən sonra yazını planda sürüşdürüb yerini dəyişə bilərsiniz.</p>
+                <div class="warehouse-plan-dialog-actions"><button id="warehouse-plan-text-cancel" type="button">Ləğv et</button><button type="submit">Yerləşdir</button></div>
+            </form>
+        </dialog>
+    </main>
+    <dialog id="port-map-dialog" class="port-map-dialog" aria-label="Liman ərazisinin xəritəsi">
+        <button id="port-map-close" class="port-map-close" type="button" aria-label="Xəritəni bağla">×</button>
+        <img class="port-map-full" src="images/liman-xerite-qara.png?v=2" alt="Liman ərazisinin xəritəsi">
+    </dialog>
+    <dialog id="area-record-dialog" class="area-record-dialog" aria-labelledby="area-dialog-title">
+        <div class="area-record-dialog-panel">
+            <header class="area-record-dialog-header">
+                <span id="area-dialog-kicker" class="area-record-dialog-kicker">ƏRAZİ QEYDİ</span>
+                <button id="area-dialog-close" class="area-dialog-close" type="button" aria-label="Pəncərəni bağla">×</button>
+            </header>
+            <div id="area-record-dialog-content" class="area-record-dialog-content"></div>
+        </div>
+    </dialog>
+    <div id="action-toast" class="action-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+    <dialog id="issue-goods-dialog" class="issue-goods-dialog">
+        <form id="issue-goods-form" class="issue-goods-form">
+            <header class="issue-goods-dialog-header">
+                <div><span class="issue-goods-dialog-kicker">TƏHVİL QEYDİ</span><h2>Malı təhvil ver</h2></div>
+                <button id="issue-goods-dialog-close" class="issue-goods-dialog-close" type="button" aria-label="Pəncərəni bağla">×</button>
+            </header>
+            <div id="issue-goods-selected" class="issue-goods-selected"></div>
+            <label class="issue-goods-field"><span>Verilən miqdar</span><input id="issue-goods-quantity" type="number" min="0.01" step="any" inputmode="decimal" required></label>
+            <label class="issue-goods-field"><span>Hansı şöbəyə verildi</span><input id="issue-goods-department" type="text" maxlength="120" placeholder="Məsələn, Sosial xidmətlər şöbəsi" required></label>
+            <label class="issue-goods-field"><span>Malı götürən işçi</span><input id="issue-goods-recipient" type="text" maxlength="120" placeholder="Ad, soyad" autocomplete="name" required></label>
+            <label class="issue-goods-field"><span>Tarix</span><input id="issue-goods-date" type="date" required></label>
+            <p id="issue-goods-form-status" class="issue-goods-form-status" role="status" aria-live="polite"></p>
+            <div class="issue-goods-dialog-actions"><button id="issue-goods-cancel" class="secondary-button" type="button">Ləğv et</button><button id="issue-goods-submit" class="primary-button" type="submit">Təhvil ver <span aria-hidden="true">→</span></button></div>
+        </form>
+    </dialog>
+    <script src="app-config.js?v=9"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-messaging-compat.js"></script>
+    <script src="script.js?v=100"></script>
+    <script src="english-words.js?v=2"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
